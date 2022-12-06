@@ -1,9 +1,16 @@
 import React from "react";
 
-const Input = (props) => {
+const Input = ({ id, type, value, onChange, placeholder }) => {
   return (
     <div>
-      <input style={{ display: "block" }} {...props} />
+      <input
+        style={{ display: "block" }}
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
     </div>
   );
 };

@@ -1,45 +1,75 @@
 import React from "react";
 import Input from "./Forms/Input";
 
-const registrationFields = [
+const fields = [
   {
     id: "email",
     type: "email",
     placeholder: "Email",
+    error: "",
   },
   {
     id: "password",
     type: "password",
     placeholder: "Senha",
+    error: "",
   },
 ];
 
-const Login = ({ changePage }) => {
-  const [loginForm, setLoginForm] = React.useState(
-    registrationFields.reduce((acc, field) => {
+const Login = ({ goToRegistration, goToUserProfile }) => {
+  const [values, setValues] = React.useState(
+    fields.reduce((acc, field) => {
       return { ...acc, [field.id]: "" };
     }, {})
   );
+  const [msg, setMsg] = React.useState(null);
 
+  // altera o valor dentro do array sempre que o valor do campo mudar
+  // e mantém o valor dos outros campos
   const handleChange = ({ target }) => {
     const { id, value } = target;
-    setLoginForm({ ...loginForm, [id]: value });
+    setValues({ ...values, [id]: value });
+  };
+
+  // verifica se há algum campo vazio
+  const validateFields = () => {
+    if (fields.some((field) => values[field.id] === "")) {
+      setMsg("Preencha todos os campos");
+      return false;
+    }
+    return true;
+  };
+
+  // verifica se o email e senha condiz com o de algum usuário cadastrado
+  const validateLogin = (event) => {
+    event.preventDefault();
+    if (validateFields()) {
+      if (localStorage.getItem("users")) {
+        const user = JSON.parse(localStorage.getItem("users")).some(
+          (user) =>
+            values.email === user.email && values.password === user.password
+        );
+        if (user) goToUserProfile();
+      }
+    }
   };
 
   return (
-    <div>
-      {registrationFields.map((field) => (
+    <form onSubmit={validateLogin}>
+      {fields.map((field) => (
         <Input
           key={field.id}
           {...field}
-          value={loginForm[field.id]}
+          value={values[field.id]}
           onChange={handleChange}
         />
       ))}
-      <a href="#" onClick={changePage}>
+      {msg && <p>{msg}</p>}
+      <button>Entrar</button>
+      <a href="#" onClick={goToRegistration}>
         Mudar de pagina
       </a>
-    </div>
+    </form>
   );
 };
 

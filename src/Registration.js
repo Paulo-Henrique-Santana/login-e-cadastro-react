@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "./Forms/Input";
 
-const registrationFields = [
+const fields = [
   {
     id: "firstName",
     type: "text",
@@ -39,37 +39,57 @@ const registrationFields = [
   },
 ];
 
-const Registration = ({ changePage }) => {
+const Registration = ({ goToLogin }) => {
   // Cria um array com o nome do id de cada campo e o valor vazio
-  const [registrationForm, setregistrationForm] = React.useState(
-    registrationFields.reduce((acc, field) => {
+  const [values, setValues] = React.useState(
+    fields.reduce((acc, field) => {
       return { ...acc, [field.id]: "" };
     }, {})
   );
+  const [msg, setMsg] = React.useState(null);
 
   // altera o valor dentro do array sempre que o valor do campo mudar
   // e mantém o valor dos outros campos
   const handleChange = ({ target }) => {
     const { id, value } = target;
-    setregistrationForm({ ...registrationForm, [id]: value });
+    setValues({ ...values, [id]: value });
   };
 
-  const register = async () => {
-    localStorage.setItem("users", JSON.stringify(registrationForm));
+  // verifica se há algum campo vazio
+  const validateFields = () => {
+    if (fields.some((field) => values[field.id] === "")) {
+      setMsg("Preencha todos os campos");
+      return false;
+    }
+    return true;
+  };
+
+  const register = async (event) => {
+    event.preventDefault();
+    if (validateFields()) {
+      if (localStorage.getItem("users")) {
+        const users = JSON.parse(localStorage.getItem("users"));
+        localStorage.setItem("users", JSON.stringify([...users, values]));
+      } else {
+        localStorage.setItem("users", JSON.stringify([values]));
+      }
+      goToLogin();
+    }
   };
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
-      {registrationFields.map((field) => (
+    <form onSubmit={register}>
+      {fields.map((field) => (
         <Input
           key={field.id}
           {...field}
-          value={registrationForm[field.id]}
+          value={values[field.id]}
           onChange={handleChange}
         />
       ))}
-      <button onClick={register}>Sign up</button>
-      <a href="#" onClick={changePage}>
+      {msg && <p>{msg}</p>}
+      <button>Cadastrar</button>
+      <a href="#" onClick={goToLogin}>
         Mudar de pagina
       </a>
     </form>
