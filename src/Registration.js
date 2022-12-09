@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "./Forms/Input";
 
 const fields = [
@@ -39,7 +40,7 @@ const fields = [
   },
 ];
 
-const Registration = ({ goToLogin }) => {
+const Registration = () => {
   // Cria um array com o nome do id de cada campo e o valor vazio
   const [values, setValues] = React.useState(
     fields.reduce((acc, field) => {
@@ -47,6 +48,7 @@ const Registration = ({ goToLogin }) => {
     }, {})
   );
   const [msg, setMsg] = React.useState(null);
+  const navigate = useNavigate();
 
   // altera o valor dentro do array sempre que o valor do campo mudar
   // e mantém o valor dos outros campos
@@ -73,7 +75,7 @@ const Registration = ({ goToLogin }) => {
       } else {
         localStorage.setItem("users", JSON.stringify([values]));
       }
-      goToLogin();
+      navigate("/");
     }
   };
 
@@ -89,9 +91,10 @@ const Registration = ({ goToLogin }) => {
       ))}
       {msg && <p>{msg}</p>}
       <button>Cadastrar</button>
-      <a href="#" onClick={goToLogin}>
-        Mudar de pagina
-      </a>
+      <p>
+        Já possui uma conta?
+        <Link to="/"> Faça login</Link>
+      </p>
     </form>
   );
 };

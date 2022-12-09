@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "./Forms/Input";
 
 const fields = [
@@ -16,13 +17,14 @@ const fields = [
   },
 ];
 
-const Login = ({ goToRegistration, goToUserProfile }) => {
+const Login = () => {
   const [values, setValues] = React.useState(
     fields.reduce((acc, field) => {
       return { ...acc, [field.id]: "" };
     }, {})
   );
   const [msg, setMsg] = React.useState(null);
+  const navigate = useNavigate();
 
   // altera o valor dentro do array sempre que o valor do campo mudar
   // e mantém o valor dos outros campos
@@ -49,7 +51,7 @@ const Login = ({ goToRegistration, goToUserProfile }) => {
           (user) =>
             values.email === user.email && values.password === user.password
         );
-        if (user) goToUserProfile();
+        if (user) navigate("userProfile");
       }
     }
   };
@@ -66,9 +68,10 @@ const Login = ({ goToRegistration, goToUserProfile }) => {
       ))}
       {msg && <p>{msg}</p>}
       <button>Entrar</button>
-      <a href="#" onClick={goToRegistration}>
-        Mudar de pagina
-      </a>
+      <p>
+        Ainda não tem conta?
+        <Link to="registration"> Cadastre-se</Link>
+      </p>
     </form>
   );
 };

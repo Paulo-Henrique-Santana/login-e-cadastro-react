@@ -1,12 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserProfile = ({ goToLogin }) => {
   return (
     <div>
       <p>UserProfile</p>
-      <a href="#" onClick={goToLogin}>
-        Sair
-      </a>
+      <Link to="/">Sair</Link>
     </div>
   );
 };
