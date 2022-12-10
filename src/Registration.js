@@ -84,7 +84,7 @@ const Registration = () => {
       } else {
         localStorage.users = JSON.stringify([user]);
       }
-      navigate("/");
+      navigate("/?msg=registeredUser");
     }
   };
 

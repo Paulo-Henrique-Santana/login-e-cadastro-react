@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Input from "./Forms/Input";
 
 const fields = [
@@ -25,6 +25,14 @@ const Login = () => {
   );
   const [msg, setMsg] = React.useState(null);
   const navigate = useNavigate();
+  const urlParams = new URLSearchParams(useLocation().search);
+
+  React.useEffect(() => {
+    if (urlParams.get("msg")) setMsg("Usuário cadastrado com sucesso");
+    setTimeout(() => {
+      setMsg(null);
+    }, 3000);
+  }, []);
 
   // altera o valor dentro do array sempre que o valor do campo mudar
   // e mantém o valor dos outros campos
