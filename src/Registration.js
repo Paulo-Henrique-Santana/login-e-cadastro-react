@@ -24,11 +24,6 @@ const fields = [
     placeholder: "Email",
   },
   {
-    id: "cpf",
-    type: "text",
-    placeholder: "CPF",
-  },
-  {
     id: "password",
     type: "password",
     placeholder: "Senha",
@@ -63,6 +58,16 @@ const Registration = () => {
       setMsg("Preencha todos os campos");
     } else if (values.password !== values.confirmPassword) {
       setMsg("As senhas devem ser iguais");
+    } else if (
+      localStorage.users &&
+      JSON.parse(localStorage.users).some(({ user }) => user === values.user)
+    ) {
+      setMsg("Nome de usuário já cadastrado");
+    } else if (
+      localStorage.users &&
+      JSON.parse(localStorage.users).some(({ email }) => email === values.email)
+    ) {
+      setMsg("Email já cadastrado");
     } else {
       return true;
     }
@@ -73,11 +78,11 @@ const Registration = () => {
     if (validateFields()) {
       const user = { ...values };
       delete user.confirmPassword;
-      if (localStorage.getItem("users")) {
-        const users = JSON.parse(localStorage.getItem("users"));
-        localStorage.setItem("users", JSON.stringify([...users, user]));
+      if (localStorage.users) {
+        const users = JSON.parse(localStorage.users);
+        localStorage.users = JSON.stringify([...users, user]);
       } else {
-        localStorage.setItem("users", JSON.stringify([user]));
+        localStorage.users = JSON.stringify([user]);
       }
       navigate("/");
     }
