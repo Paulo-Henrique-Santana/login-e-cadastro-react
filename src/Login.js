@@ -28,10 +28,14 @@ const Login = () => {
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    if (urlParams.get("msg")) setMsg("Usuário cadastrado com sucesso");
-    setTimeout(() => {
-      setMsg(null);
-    }, 3000);
+    if (localStorage.loggedUser) {
+      navigate("userProfile");
+    } else if (urlParams.get("msg")) {
+      setMsg("Usuário cadastrado com sucesso");
+      setTimeout(() => {
+        setMsg(null);
+      }, 3000);
+    }
   }, []);
 
   // altera o valor dentro do array sempre que o valor do campo mudar
@@ -69,11 +73,14 @@ const Login = () => {
     event.preventDefault();
     if (validateFields()) {
       if (localStorage.getItem("users")) {
-        const user = JSON.parse(localStorage.users).some(
+        const user = JSON.parse(localStorage.users).find(
           (user) =>
             values.email === user.email && values.password === user.password
         );
-        if (user) navigate("userProfile");
+        if (user) {
+          localStorage.loggedUser = user.email;
+          navigate("userProfile");
+        }
       }
     }
   };

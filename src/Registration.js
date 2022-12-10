@@ -45,6 +45,10 @@ const Registration = () => {
   const [msg, setMsg] = React.useState(null);
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (localStorage.loggedUser) navigate("/userProfile");
+  }, []);
+
   // altera o valor dentro do array sempre que o valor do campo mudar
   // e mantém o valor dos outros campos
   const handleChange = ({ target }) => {
@@ -52,7 +56,6 @@ const Registration = () => {
     setValues({ ...values, [id]: value });
   };
 
-  // verifica se há algum campo vazio
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
       setMsg("Preencha todos os campos");
