@@ -41,13 +41,27 @@ const Login = () => {
     setValues({ ...values, [id]: value });
   };
 
-  // verifica se há algum campo vazio
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
       setMsg("Preencha todos os campos");
-      return false;
+    } else if (
+      localStorage.users &&
+      !JSON.parse(localStorage.users).some(
+        ({ email }) => email === values.email
+      )
+    ) {
+      setMsg("Email não cadastrado");
+    } else if (
+      localStorage.users &&
+      JSON.parse(localStorage.users).some(
+        ({ email, password }) =>
+          email === values.email && password !== values.password
+      )
+    ) {
+      setMsg("Senha incorreta");
+    } else {
+      return true;
     }
-    return true;
   };
 
   // verifica se o email e senha condiz com o de algum usuário cadastrado
@@ -55,7 +69,7 @@ const Login = () => {
     event.preventDefault();
     if (validateFields()) {
       if (localStorage.getItem("users")) {
-        const user = JSON.parse(localStorage.getItem("users")).some(
+        const user = JSON.parse(localStorage.users).some(
           (user) =>
             values.email === user.email && values.password === user.password
         );
