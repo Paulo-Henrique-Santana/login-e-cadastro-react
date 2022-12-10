@@ -34,7 +34,7 @@ const fields = [
     placeholder: "Senha",
   },
   {
-    id: "passwordConfirm",
+    id: "confirmPassword",
     type: "password",
     placeholder: "Confirmar senha",
   },
@@ -61,19 +61,23 @@ const Registration = () => {
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
       setMsg("Preencha todos os campos");
-      return false;
+    } else if (values.password !== values.confirmPassword) {
+      setMsg("As senhas devem ser iguais");
+    } else {
+      return true;
     }
-    return true;
   };
 
   const register = async (event) => {
     event.preventDefault();
     if (validateFields()) {
+      const user = { ...values };
+      delete user.confirmPassword;
       if (localStorage.getItem("users")) {
         const users = JSON.parse(localStorage.getItem("users"));
-        localStorage.setItem("users", JSON.stringify([...users, values]));
+        localStorage.setItem("users", JSON.stringify([...users, user]));
       } else {
-        localStorage.setItem("users", JSON.stringify([values]));
+        localStorage.setItem("users", JSON.stringify([user]));
       }
       navigate("/");
     }
