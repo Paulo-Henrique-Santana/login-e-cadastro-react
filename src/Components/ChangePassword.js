@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "./Forms/Input";
+import useForm from "../Hooks/useForm";
+import Input from "./Input";
 
 const fields = [
   {
@@ -21,12 +22,7 @@ const fields = [
 ];
 
 const ChangePassword = () => {
-  // Cria um array com o nome do id de cada campo e o valor vazio
-  const [values, setValues] = React.useState(
-    fields.reduce((acc, field) => {
-      return { ...acc, [field.id]: "" };
-    }, {})
-  );
+  const [values, handleChange] = useForm(fields);
   const [msg, setMsg] = React.useState();
   const [user, setUser] = React.useState();
   const navigate = useNavigate();
@@ -38,13 +34,6 @@ const ChangePassword = () => {
       )
     );
   }, []);
-
-  // altera o valor dentro do array sempre que o valor do campo mudar
-  // e mantém o valor dos outros campos
-  const handleChange = ({ target }) => {
-    const { id, value } = target;
-    setValues({ ...values, [id]: value });
-  };
 
   const validateFields = () => {
     if (fields.some(({ id }) => values[id] === "")) {

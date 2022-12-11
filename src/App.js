@@ -1,10 +1,10 @@
 import React from "react";
-import Login from "./Login";
-import Registration from "./Registration";
-import UserProfile from "./UserProfile";
+import Login from "./Components/Login";
+import Registration from "./Components/Registration";
+import UserProfile from "./Components/UserProfile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NotFound from "./NotFound";
-import ChangePassword from "./ChangePassword";
+import NotFound from "./Components/NotFound";
+import ChangePassword from "./Components/ChangePassword";
 
 const App = () => {
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import Input from "./Forms/Input";
+import useForm from "../Hooks/useForm";
+import Input from "./Input";
 
 const fields = [
   {
@@ -18,46 +19,31 @@ const fields = [
 ];
 
 const Login = () => {
-  const [values, setValues] = React.useState(
-    fields.reduce((acc, field) => {
-      return { ...acc, [field.id]: "" };
-    }, {})
-  );
+  const [values, handleChange] = useForm(fields);
   const [msg, setMsg] = React.useState(null);
+  const [users, setUsers] = React.useState(null);
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    if (localStorage.loggedUser) {
-      navigate("userProfile");
-    } else if (urlParams.get("msg")) {
+    if (localStorage.loggedUser) navigate("userProfile");
+    if (urlParams.get("msg")) {
       setMsg("Usuário cadastrado com sucesso");
       setTimeout(() => {
         setMsg(null);
       }, 3000);
     }
+    if (localStorage.users) setUsers(JSON.parse(localStorage.users));
   }, []);
-
-  // altera o valor dentro do array sempre que o valor do campo mudar
-  // e mantém o valor dos outros campos
-  const handleChange = ({ target }) => {
-    const { id, value } = target;
-    setValues({ ...values, [id]: value });
-  };
 
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
       setMsg("Preencha todos os campos");
-    } else if (
-      localStorage.users &&
-      !JSON.parse(localStorage.users).some(
-        ({ email }) => email === values.email
-      )
-    ) {
+    } else if (users && !users.some(({ email }) => email === values.email)) {
       setMsg("Email não cadastrado");
     } else if (
-      localStorage.users &&
-      JSON.parse(localStorage.users).some(
+      users &&
+      users.some(
         ({ email, password }) =>
           email === values.email && password !== values.password
       )
@@ -72,8 +58,8 @@ const Login = () => {
   const validateLogin = (event) => {
     event.preventDefault();
     if (validateFields()) {
-      if (localStorage.getItem("users")) {
-        const user = JSON.parse(localStorage.users).find(
+      if (users) {
+        const user = users.find(
           (user) =>
             values.email === user.email && values.password === user.password
         );

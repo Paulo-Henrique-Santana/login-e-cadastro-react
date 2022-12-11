@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "./Forms/Input";
+import useForm from "../Hooks/useForm";
+import Input from "./Input";
 
 const fields = [
   {
@@ -14,7 +15,7 @@ const fields = [
     placeholder: "Sobrenome",
   },
   {
-    id: "user",
+    id: "username",
     type: "text",
     placeholder: "Nome de usuário",
   },
@@ -36,25 +37,15 @@ const fields = [
 ];
 
 const Registration = () => {
-  // Cria um array com o nome do id de cada campo e o valor vazio
-  const [values, setValues] = React.useState(
-    fields.reduce((acc, field) => {
-      return { ...acc, [field.id]: "" };
-    }, {})
-  );
+  const [values, handleChange] = useForm(fields);
   const [msg, setMsg] = React.useState(null);
+  const [users, setUsers] = React.useState(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (localStorage.loggedUser) navigate("/userProfile");
+    if (localStorage.users) setUsers(JSON.parse(localStorage.users));
   }, []);
-
-  // altera o valor dentro do array sempre que o valor do campo mudar
-  // e mantém o valor dos outros campos
-  const handleChange = ({ target }) => {
-    const { id, value } = target;
-    setValues({ ...values, [id]: value });
-  };
 
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
@@ -62,14 +53,11 @@ const Registration = () => {
     } else if (values.password !== values.confirmPassword) {
       setMsg("Confirmação de senha não confere");
     } else if (
-      localStorage.users &&
-      JSON.parse(localStorage.users).some(({ user }) => user === values.user)
+      users &&
+      users.some(({ username }) => username === values.username)
     ) {
       setMsg("Nome de usuário já cadastrado");
-    } else if (
-      localStorage.users &&
-      JSON.parse(localStorage.users).some(({ email }) => email === values.email)
-    ) {
+    } else if (users && users.some(({ email }) => email === values.email)) {
       setMsg("Email já cadastrado");
     } else {
       return true;
@@ -81,8 +69,7 @@ const Registration = () => {
     if (validateFields()) {
       const user = { ...values };
       delete user.confirmPassword;
-      if (localStorage.users) {
-        const users = JSON.parse(localStorage.users);
+      if (users) {
         localStorage.users = JSON.stringify([...users, user]);
       } else {
         localStorage.users = JSON.stringify([user]);
