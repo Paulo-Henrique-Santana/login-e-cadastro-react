@@ -60,7 +60,7 @@ const Registration = () => {
     if (fields.some((field) => values[field.id] === "")) {
       setMsg("Preencha todos os campos");
     } else if (values.password !== values.confirmPassword) {
-      setMsg("As senhas devem ser iguais");
+      setMsg("Confirmação de senha não confere");
     } else if (
       localStorage.users &&
       JSON.parse(localStorage.users).some(({ user }) => user === values.user)
