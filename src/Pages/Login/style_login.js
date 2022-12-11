@@ -5,10 +5,13 @@ export const Section = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 15px;
   border-radius: 8px;
   padding: 40px 30px;
   background-color: #f8f9fa;
+  width: 340px;
+  @media (max-width: 375px) {
+    width: 285px;
+  }
 `;
 
 export const Title = styled.h1`
@@ -41,6 +44,7 @@ export const Button = styled.button`
 export const Paragraph = styled.p`
   margin-top: 60px;
   font-size: 0.975rem;
+  text-align: center;
 `;
 
 export const StyledLink = styled(Link)`
