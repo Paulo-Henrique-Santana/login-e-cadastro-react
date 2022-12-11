@@ -1,7 +1,8 @@
 import React from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import useForm from "../Hooks/useForm";
-import Input from "./Input";
+import { useLocation, useNavigate } from "react-router-dom";
+import useForm from "../../Hooks/useForm";
+import Input from "../../Components/Input/Input";
+import * as S from "./style_login";
 
 const fields = [
   {
@@ -29,9 +30,7 @@ const Login = () => {
     if (localStorage.loggedUser) navigate("userProfile");
     if (urlParams.get("msg")) {
       setMsg("Usuário cadastrado com sucesso");
-      setTimeout(() => {
-        setMsg(null);
-      }, 3000);
+      setTimeout(() => setMsg(null), 3000);
     }
     if (localStorage.users) setUsers(JSON.parse(localStorage.users));
   }, []);
@@ -72,22 +71,25 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={validateLogin}>
-      {fields.map((field) => (
-        <Input
-          key={field.id}
-          {...field}
-          value={values[field.id]}
-          onChange={handleChange}
-        />
-      ))}
-      {msg && <p>{msg}</p>}
-      <button>Entrar</button>
-      <p>
+    <S.Section>
+      <S.Title>Login</S.Title>
+      <S.Form onSubmit={validateLogin}>
+        {fields.map((field) => (
+          <Input
+            key={field.id}
+            {...field}
+            value={values[field.id]}
+            onChange={handleChange}
+          />
+        ))}
+        {msg && <p>{msg}</p>}
+        <S.Button>Entrar</S.Button>
+      </S.Form>
+      <S.Paragraph>
         Ainda não tem conta?
-        <Link to="registration"> Cadastre-se</Link>
-      </p>
-    </form>
+        <S.StyledLink to="registration"> Cadastre-se</S.StyledLink>
+      </S.Paragraph>
+    </S.Section>
   );
 };
 

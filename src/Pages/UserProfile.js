@@ -33,7 +33,7 @@ const UserProfile = () => {
           <p>
             Nome Completo: {user.firstName} {user.lastName}
           </p>
-          <p>Nome de usuário: {user.user}</p>
+          <p>Nome de usuário: {user.username}</p>
           <p>Email: {user.email}</p>
           <Link to="/changePassword">Alterar senha</Link>
           {msg && <p>{msg}</p>}

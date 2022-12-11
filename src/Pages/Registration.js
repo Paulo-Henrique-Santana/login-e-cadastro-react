@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useForm from "../Hooks/useForm";
-import Input from "./Input";
+import Input from "../Components/Input/Input";
 
 const fields = [
   {
@@ -79,22 +79,24 @@ const Registration = () => {
   };
 
   return (
-    <form onSubmit={register}>
-      {fields.map((field) => (
-        <Input
-          key={field.id}
-          {...field}
-          value={values[field.id]}
-          onChange={handleChange}
-        />
-      ))}
-      {msg && <p>{msg}</p>}
-      <button>Cadastrar</button>
+    <section>
+      <form onSubmit={register}>
+        {fields.map((field) => (
+          <Input
+            key={field.id}
+            {...field}
+            value={values[field.id]}
+            onChange={handleChange}
+          />
+        ))}
+        {msg && <p>{msg}</p>}
+        <button>Cadastrar</button>
+      </form>
       <p>
         Já possui uma conta?
         <Link to="/"> Faça login</Link>
       </p>
-    </form>
+    </section>
   );
 };
 

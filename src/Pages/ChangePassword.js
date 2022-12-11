@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useForm from "../Hooks/useForm";
-import Input from "./Input";
+import Input from "../Components/Input/Input";
 
 const fields = [
   {
