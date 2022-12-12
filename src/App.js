@@ -1,32 +1,11 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import Registration from "./Pages/Registration/Registration";
-import UserProfile from "./Pages/UserProfile";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import UserProfile from "./Pages/UserProfile/UserProfile";
+import ChangePassword from "./Pages/ChangePassword/ChangePassword";
 import NotFound from "./Pages/NotFound";
-import ChangePassword from "./Pages/ChangePassword";
-import { createGlobalStyle } from "styled-components";
-
-const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #1d3557;
-  }
-`;
+import { GlobalStyle } from "./style_global";
 
 const App = () => {
   return (

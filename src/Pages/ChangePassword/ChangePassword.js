@@ -1,7 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useForm from "../Hooks/useForm";
-import Input from "../Components/Input/Input";
+import useForm from "../../Hooks/useForm";
+import Input from "../../Components/Input/Input";
+import * as S from "./style_ChangePassword";
+import * as G from "../../style_global";
 
 const fields = [
   {
@@ -23,7 +25,7 @@ const fields = [
 
 const ChangePassword = () => {
   const [values, handleChange] = useForm(fields);
-  const [msg, setMsg] = React.useState();
+  const [msg, setMsg] = React.useState("");
   const [user, setUser] = React.useState();
   const navigate = useNavigate();
 
@@ -63,19 +65,24 @@ const ChangePassword = () => {
   };
 
   return (
-    <form onSubmit={changePassword}>
-      {fields.map((field) => (
-        <Input
-          key={field.id}
-          {...field}
-          value={values[field.id]}
-          onChange={handleChange}
-        />
-      ))}
-      {msg && <p>{msg}</p>}
-      <Link to="/userProfile">Voltar</Link>
-      <button>Confirmar</button>
-    </form>
+    <S.Section>
+      <G.Title>Alterar Senha</G.Title>
+      <G.Form onSubmit={changePassword}>
+        {fields.map((field) => (
+          <Input
+            key={field.id}
+            {...field}
+            value={values[field.id]}
+            onChange={handleChange}
+          />
+        ))}
+        <p>{msg}</p>
+        <G.Button>Confirmar</G.Button>
+        <G.Paragraph>
+          <G.StyledLink to="/userProfile">Voltar</G.StyledLink>
+        </G.Paragraph>
+      </G.Form>
+    </S.Section>
   );
 };
 

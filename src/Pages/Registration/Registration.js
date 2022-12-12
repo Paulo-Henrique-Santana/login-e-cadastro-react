@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useForm from "../../Hooks/useForm";
 import Input from "../../Components/Input/Input";
 import * as S from "./style_registration";
+import * as G from "../../style_global";
 
 const fields = [
   {
@@ -81,8 +82,8 @@ const Registration = () => {
 
   return (
     <S.Section>
-      <S.Title>Cadastro</S.Title>
-      <S.Form onSubmit={register}>
+      <G.Title>Cadastro</G.Title>
+      <G.Form onSubmit={register}>
         {fields.map((field) => (
           <Input
             key={field.id}
@@ -91,13 +92,13 @@ const Registration = () => {
             onChange={handleChange}
           />
         ))}
-        <S.Error>{error}</S.Error>
-        <S.Button>Cadastrar</S.Button>
-      </S.Form>
-      <S.Paragraph>
+        <G.Error>{error}</G.Error>
+        <G.Button>Cadastrar</G.Button>
+      </G.Form>
+      <G.Paragraph>
         Já possui uma conta?
-        <S.StyledLink to="/"> Faça login</S.StyledLink>
-      </S.Paragraph>
+        <G.StyledLink to="/"> Faça login</G.StyledLink>
+      </G.Paragraph>
     </S.Section>
   );
 };
