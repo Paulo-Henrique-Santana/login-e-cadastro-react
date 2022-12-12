@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./Pages/Login/Login";
-import Registration from "./Pages/Registration";
+import Registration from "./Pages/Registration/Registration";
 import UserProfile from "./Pages/UserProfile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NotFound from "./Pages/NotFound";

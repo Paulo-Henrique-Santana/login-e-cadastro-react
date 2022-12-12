@@ -21,7 +21,8 @@ const fields = [
 
 const Login = () => {
   const [values, handleChange] = useForm(fields);
-  const [msg, setMsg] = React.useState(null);
+  const [msg, setMsg] = React.useState("");
+  const [error, setError] = React.useState("");
   const [users, setUsers] = React.useState(null);
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(useLocation().search);
@@ -37,9 +38,9 @@ const Login = () => {
 
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
-      setMsg("Preencha todos os campos");
+      setError("Preencha todos os campos");
     } else if (users && !users.some(({ email }) => email === values.email)) {
-      setMsg("Email não cadastrado");
+      setError("Email não cadastrado");
     } else if (
       users &&
       users.some(
@@ -47,7 +48,7 @@ const Login = () => {
           email === values.email && password !== values.password
       )
     ) {
-      setMsg("Senha incorreta");
+      setError("Senha incorreta");
     } else {
       return true;
     }
@@ -82,7 +83,7 @@ const Login = () => {
             onChange={handleChange}
           />
         ))}
-        {msg && <p>{msg}</p>}
+        {error ? <S.Error>{error}</S.Error> : <S.Msg>{msg}</S.Msg>}
         <S.Button>Entrar</S.Button>
       </S.Form>
       <S.Paragraph>

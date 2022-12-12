@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export const Section = styled.section`
   display: flex;
@@ -8,9 +8,12 @@ export const Section = styled.section`
   border-radius: 8px;
   padding: 40px 30px;
   background-color: #f8f9fa;
-  width: 340px;
+  width: 400px;
+  @media (max-width: 450px) {
+    width: 350px;
+  }
   @media (max-width: 375px) {
-    width: 285px;
+    width: 300px;
   }
 `;
 
@@ -24,23 +27,19 @@ export const Form = styled.form`
   width: 100%;
 `;
 
-export const Msg = styled.p`
-  margin-bottom: 15px;
+export const Error = styled.p`
   height: 20px;
   text-align: center;
-  color: green;
-`;
-
-export const Error = styled(Msg)`
   color: red;
 `;
 
 export const Button = styled.button`
   display: block;
-  margin: 0 auto;
+  grid-column: 1 / -1;
+  margin: 20px auto 0 auto;
   border: none;
   border-radius: 3px;
-  padding: 10px 30px;
+  padding: 10px 40px;
   background-color: #457b9d;
   color: #fff;
   font-size: 0.8rem;

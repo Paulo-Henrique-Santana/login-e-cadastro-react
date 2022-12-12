@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useForm from "../Hooks/useForm";
-import Input from "../Components/Input/Input";
+import useForm from "../../Hooks/useForm";
+import Input from "../../Components/Input/Input";
+import * as S from "./style_registration";
 
 const fields = [
   {
@@ -38,7 +39,7 @@ const fields = [
 
 const Registration = () => {
   const [values, handleChange] = useForm(fields);
-  const [msg, setMsg] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const [users, setUsers] = React.useState(null);
   const navigate = useNavigate();
 
@@ -49,16 +50,16 @@ const Registration = () => {
 
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
-      setMsg("Preencha todos os campos");
+      setError("Preencha todos os campos");
     } else if (values.password !== values.confirmPassword) {
-      setMsg("Confirmação de senha não confere");
+      setError("Confirmação de senha não confere");
     } else if (
       users &&
       users.some(({ username }) => username === values.username)
     ) {
-      setMsg("Nome de usuário já cadastrado");
+      setError("Nome de usuário já cadastrado");
     } else if (users && users.some(({ email }) => email === values.email)) {
-      setMsg("Email já cadastrado");
+      setError("Email já cadastrado");
     } else {
       return true;
     }
@@ -79,8 +80,9 @@ const Registration = () => {
   };
 
   return (
-    <section>
-      <form onSubmit={register}>
+    <S.Section>
+      <S.Title>Cadastro</S.Title>
+      <S.Form onSubmit={register}>
         {fields.map((field) => (
           <Input
             key={field.id}
@@ -89,14 +91,14 @@ const Registration = () => {
             onChange={handleChange}
           />
         ))}
-        {msg && <p>{msg}</p>}
-        <button>Cadastrar</button>
-      </form>
-      <p>
+        <S.Error>{error}</S.Error>
+        <S.Button>Cadastrar</S.Button>
+      </S.Form>
+      <S.Paragraph>
         Já possui uma conta?
-        <Link to="/"> Faça login</Link>
-      </p>
-    </section>
+        <S.StyledLink to="/"> Faça login</S.StyledLink>
+      </S.Paragraph>
+    </S.Section>
   );
 };
 
