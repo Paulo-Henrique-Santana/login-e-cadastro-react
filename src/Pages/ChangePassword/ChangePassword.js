@@ -5,6 +5,7 @@ import Input from "../../Components/Input/Input";
 import * as L from "./style_ChangePassword";
 import * as G from "../../style_global";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
+import Head from "../../Components/Head";
 
 const fields = [
   {
@@ -64,6 +65,7 @@ const ChangePassword = () => {
 
   return (
     <L.Section>
+      <Head title="Alterar senha" description="Alterar a senha do usuário" />
       <G.Title>Alterar Senha</G.Title>
       <G.Form onSubmit={changePassword}>
         {fields.map((field) => (

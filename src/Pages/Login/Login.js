@@ -5,6 +5,7 @@ import Input from "../../Components/Input/Input";
 import * as L from "./style_login";
 import * as G from "../../style_global";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
+import Head from "../../Components/Head";
 
 const fields = [
   {
@@ -75,6 +76,7 @@ const Login = () => {
 
   return (
     <L.Section>
+      <Head title="Login" description="Login de usuário" />
       <G.Title>Login</G.Title>
       <G.Form onSubmit={validateLogin}>
         {fields.map((field) => (

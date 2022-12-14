@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import * as S from "./style_userProfile";
 import * as G from "../../style_global";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
+import Head from "../../Components/Head";
 
 const UserProfile = () => {
   const [user, setUser] = React.useState();
@@ -21,6 +22,7 @@ const UserProfile = () => {
 
   return (
     <S.Section>
+      <Head title="Perfil do usuário" description="Perfil do usuário" />
       <G.Title>Seus Dados</G.Title>
       {user && (
         <div>

@@ -5,6 +5,7 @@ import Input from "../../Components/Input/Input";
 import * as S from "./style_registration";
 import * as G from "../../style_global";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
+import Head from "../../Components/Head";
 
 const fields = [
   {
@@ -84,6 +85,7 @@ const Registration = () => {
   return (
     <S.Section>
       <G.Title>Cadastro</G.Title>
+      <Head title="Cadastro" description="Cadastro de usuário" />
       <G.Form onSubmit={register}>
         {fields.map((field) => (
           <Input
