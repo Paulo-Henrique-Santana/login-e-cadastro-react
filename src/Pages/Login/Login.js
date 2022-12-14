@@ -4,6 +4,7 @@ import useForm from "../../Hooks/useForm";
 import Input from "../../Components/Input/Input";
 import * as L from "./style_login";
 import * as G from "../../style_global";
+import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
 
 const fields = [
   {
@@ -22,19 +23,19 @@ const fields = [
 
 const Login = () => {
   const [values, handleChange] = useForm(fields);
+  const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
   const [msg, setMsg] = React.useState("");
   const [error, setError] = React.useState("");
-  const [users, setUsers] = React.useState(null);
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    if (localStorage.loggedUser) navigate("userProfile");
+    checkLoggedUser();
     if (urlParams.get("msg")) {
       setMsg("Usuário cadastrado com sucesso");
       setTimeout(() => setMsg(null), 3000);
     }
-    if (localStorage.users) setUsers(JSON.parse(localStorage.users));
+    getUsers();
   }, []);
 
   const validateFields = () => {

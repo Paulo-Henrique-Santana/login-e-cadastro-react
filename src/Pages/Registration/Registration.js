@@ -4,6 +4,7 @@ import useForm from "../../Hooks/useForm";
 import Input from "../../Components/Input/Input";
 import * as S from "./style_registration";
 import * as G from "../../style_global";
+import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
 
 const fields = [
   {
@@ -40,13 +41,13 @@ const fields = [
 
 const Registration = () => {
   const [values, handleChange] = useForm(fields);
+  const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
   const [error, setError] = React.useState(null);
-  const [users, setUsers] = React.useState(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (localStorage.loggedUser) navigate("/userProfile");
-    if (localStorage.users) setUsers(JSON.parse(localStorage.users));
+    checkLoggedUser();
+    getUsers();
   }, []);
 
   const validateFields = () => {

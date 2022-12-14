@@ -1,9 +1,10 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useForm from "../../Hooks/useForm";
 import Input from "../../Components/Input/Input";
-import * as S from "./style_ChangePassword";
+import * as L from "./style_ChangePassword";
 import * as G from "../../style_global";
+import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
 
 const fields = [
   {
@@ -25,16 +26,13 @@ const fields = [
 
 const ChangePassword = () => {
   const [values, handleChange] = useForm(fields);
+  const [checkLoggedUser] = useLocalStorageUsers();
+  const [user, setUser] = React.useState(null);
   const [msg, setMsg] = React.useState("");
-  const [user, setUser] = React.useState();
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    setUser(
-      JSON.parse(localStorage.users).find(
-        ({ email }) => email === localStorage.loggedUser
-      )
-    );
+    setUser(checkLoggedUser());
   }, []);
 
   const validateFields = () => {
@@ -65,7 +63,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <S.Section>
+    <L.Section>
       <G.Title>Alterar Senha</G.Title>
       <G.Form onSubmit={changePassword}>
         {fields.map((field) => (
@@ -76,13 +74,13 @@ const ChangePassword = () => {
             onChange={handleChange}
           />
         ))}
-        <p>{msg}</p>
+        <G.Msg>{msg}</G.Msg>
         <G.Button>Confirmar</G.Button>
-        <G.Paragraph>
+        <L.Paragraph>
           <G.StyledLink to="/userProfile">Voltar</G.StyledLink>
-        </G.Paragraph>
+        </L.Paragraph>
       </G.Form>
-    </S.Section>
+    </L.Section>
   );
 };
 

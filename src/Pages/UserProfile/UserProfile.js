@@ -1,24 +1,18 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import * as S from "./style_userProfile";
 import * as G from "../../style_global";
+import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
 
 const UserProfile = () => {
   const [user, setUser] = React.useState();
+  const [checkLoggedUser] = useLocalStorageUsers();
   const [msg, setMsg] = React.useState("");
-  const navigate = useNavigate();
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    if (localStorage.loggedUser) {
-      setUser(
-        JSON.parse(localStorage.users).find(
-          ({ email }) => email === localStorage.loggedUser
-        )
-      );
-    } else {
-      navigate("/");
-    }
+    setUser(checkLoggedUser());
+
     if (urlParams.get("passwordChanged")) {
       setMsg("Senha alterada com sucesso");
       setTimeout(() => setMsg(null), 3000);

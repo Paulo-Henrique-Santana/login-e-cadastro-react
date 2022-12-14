@@ -7,3 +7,7 @@ export const Section = styled(G.Section)`
     width: 285px;
   }
 `;
+
+export const Paragraph = styled(G.Paragraph)`
+  margin-top: 30px;
+`;
