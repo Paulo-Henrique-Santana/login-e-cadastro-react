@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useForm from "../../Hooks/useForm";
+import Head from "../../Components/Head";
 import Input from "../../Components/Input/Input";
+import useForm from "../../Hooks/useForm";
+import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
+import useMsg from "../../Hooks/useMsg";
 import * as S from "./style_registration";
 import * as G from "../../style_global";
-import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
-import Head from "../../Components/Head";
 
 const fields = [
   {
@@ -41,9 +42,9 @@ const fields = [
 ];
 
 const Registration = () => {
-  const [values, handleChange] = useForm(fields);
   const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
-  const [error, setError] = React.useState(null);
+  const [values, handleChange] = useForm(fields);
+  const [error, addError] = useMsg();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -53,16 +54,16 @@ const Registration = () => {
 
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
-      setError("Preencha todos os campos");
+      addError("Preencha todos os campos");
     } else if (values.password !== values.confirmPassword) {
-      setError("Confirmação de senha não confere");
+      addError("Confirmação de senha não confere");
     } else if (
       users &&
       users.some(({ username }) => username === values.username)
     ) {
-      setError("Nome de usuário já cadastrado");
+      addError("Nome de usuário já cadastrado");
     } else if (users && users.some(({ email }) => email === values.email)) {
-      setError("Email já cadastrado");
+      addError("Email já cadastrado");
     } else {
       return true;
     }

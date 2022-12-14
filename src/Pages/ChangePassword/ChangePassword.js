@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useForm from "../../Hooks/useForm";
+import Head from "../../Components/Head";
 import Input from "../../Components/Input/Input";
+import useForm from "../../Hooks/useForm";
+import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
+import useMsg from "../../Hooks/useMsg";
 import * as L from "./style_ChangePassword";
 import * as G from "../../style_global";
-import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
-import Head from "../../Components/Head";
 
 const fields = [
   {
@@ -26,10 +27,10 @@ const fields = [
 ];
 
 const ChangePassword = () => {
-  const [values, handleChange] = useForm(fields);
-  const [checkLoggedUser] = useLocalStorageUsers();
   const [user, setUser] = React.useState(null);
-  const [msg, setMsg] = React.useState("");
+  const [checkLoggedUser] = useLocalStorageUsers();
+  const [values, handleChange] = useForm(fields);
+  const [error, addError] = useMsg();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -38,13 +39,13 @@ const ChangePassword = () => {
 
   const validateFields = () => {
     if (fields.some(({ id }) => values[id] === "")) {
-      setMsg("Preencha todos os campos");
+      addError("Preencha todos os campos");
     } else if (values.currentPassword !== user.password) {
-      setMsg("Senha atual está incorreta");
+      addError("Senha atual está incorreta");
     } else if (values.newPassword !== values.confirmNewPassword) {
-      setMsg("Confirmação de senha não confere");
+      addError("Confirmação de senha não confere");
     } else if (values.newPassword === user.password) {
-      setMsg("A senha nova não pode ser a mesma que a senha atual");
+      addError("A senha nova não pode ser a mesma que a senha atual");
     } else {
       return true;
     }
@@ -76,7 +77,7 @@ const ChangePassword = () => {
             onChange={handleChange}
           />
         ))}
-        <G.Msg>{msg}</G.Msg>
+        <G.Error>{error}</G.Error>
         <G.Button>Confirmar</G.Button>
         <L.Paragraph>
           <G.StyledLink to="/userProfile">Voltar</G.StyledLink>

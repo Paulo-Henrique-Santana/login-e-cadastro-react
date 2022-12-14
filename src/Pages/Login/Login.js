@@ -6,6 +6,7 @@ import * as L from "./style_login";
 import * as G from "../../style_global";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
 import Head from "../../Components/Head";
+import useMsg from "../../Hooks/useMsg";
 
 const fields = [
   {
@@ -23,27 +24,23 @@ const fields = [
 ];
 
 const Login = () => {
-  const [values, handleChange] = useForm(fields);
   const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
-  const [msg, setMsg] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [values, handleChange] = useForm(fields);
+  const [msg, addMsg, error, addError] = useMsg();
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
     checkLoggedUser();
-    if (urlParams.get("msg")) {
-      setMsg("Usuário cadastrado com sucesso");
-      setTimeout(() => setMsg(null), 3000);
-    }
     getUsers();
+    if (urlParams.get("msg")) addMsg("Usuário cadastrado com sucesso");
   }, []);
 
   const validateFields = () => {
     if (fields.some((field) => values[field.id] === "")) {
-      setError("Preencha todos os campos");
+      addError("Preencha todos os campos");
     } else if (users && !users.some(({ email }) => email === values.email)) {
-      setError("Email não cadastrado");
+      addError("Email não cadastrado");
     } else if (
       users &&
       users.some(
@@ -51,7 +48,7 @@ const Login = () => {
           email === values.email && password !== values.password
       )
     ) {
-      setError("Senha incorreta");
+      addError("Senha incorreta");
     } else {
       return true;
     }
