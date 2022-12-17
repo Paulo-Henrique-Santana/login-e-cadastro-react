@@ -3,10 +3,9 @@ import styled from "styled-components";
 import * as G from "../../style_global";
 
 export const Section = styled(G.Section)`
-  width: 340px;
-  @media (max-width: 375px) {
-    width: 285px;
-  }
+  max-width: 340px;
+  padding-right: 5px;
+  padding-left: 5px;
 `;
 
 export const Data = styled.div`
@@ -18,6 +17,10 @@ export const DataTitle = styled.p`
   margin-bottom: 5px;
   color: #1d3557;
   font-weight: bold;
+`;
+
+export const DataValue = styled.p`
+  word-break: keep-all;
 `;
 
 export const Logout = styled(Link)`

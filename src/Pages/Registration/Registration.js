@@ -99,10 +99,10 @@ const Registration = () => {
         <G.Error>{error}</G.Error>
         <G.Button>Cadastrar</G.Button>
       </G.Form>
-      <G.Paragraph>
-        Já possui uma conta?
+      <G.TextBox>
+        <G.Paragraph>Já possui uma conta?</G.Paragraph>
         <G.StyledLink to="/"> Faça login</G.StyledLink>
-      </G.Paragraph>
+      </G.TextBox>
     </S.Section>
   );
 };

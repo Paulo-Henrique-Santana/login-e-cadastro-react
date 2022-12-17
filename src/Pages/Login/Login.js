@@ -87,10 +87,10 @@ const Login = () => {
         {error ? <G.Error>{error}</G.Error> : <G.Msg>{msg}</G.Msg>}
         <G.Button>Entrar</G.Button>
       </G.Form>
-      <G.Paragraph>
-        Ainda não tem conta?
-        <G.StyledLink to="registration"> Cadastre-se</G.StyledLink>
-      </G.Paragraph>
+      <G.TextBox>
+        <G.Paragraph>Ainda não tem conta?</G.Paragraph>
+        <G.StyledLink to="registration">Cadastre-se</G.StyledLink>
+      </G.TextBox>
     </L.Section>
   );
 };

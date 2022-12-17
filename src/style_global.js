@@ -9,16 +9,19 @@ export const GlobalStyle = createGlobalStyle`
     font-family: Arial, Helvetica, sans-serif;
   }
 
-  a {
-    text-decoration: none;
-  }
-
-  body {
+  #root {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+  }
+
+  body {
     background-color: #1d3557;
+  }
+  a {
+    text-decoration: none;
   }
 `;
 
@@ -26,8 +29,10 @@ export const Section = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 15px;
   border-radius: 8px;
   padding: 40px 30px;
+  width: 100vw;
   background-color: #f8f9fa;
 `;
 
@@ -35,6 +40,7 @@ export const Title = styled.h1`
   margin-bottom: 50px;
   color: #1d3557;
   font-size: 2rem;
+  text-align: center;
 `;
 
 export const Form = styled.form`
@@ -69,6 +75,14 @@ export const Button = styled.button`
   }
 `;
 
+export const TextBox = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+`;
+
 export const Paragraph = styled.p`
   margin-top: 60px;
   font-size: 0.975rem;
@@ -78,4 +92,5 @@ export const Paragraph = styled.p`
 export const StyledLink = styled(Link)`
   color: #457b9d;
   font-weight: bold;
+  white-space: nowrap;
 `;
