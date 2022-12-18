@@ -13,19 +13,18 @@ const fields = [
     id: "email",
     type: "email",
     placeholder: "Email",
-    error: "",
   },
   {
     id: "password",
     type: "password",
     placeholder: "Senha",
-    error: "",
   },
 ];
 
 const Login = () => {
   const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
-  const [values, handleChange] = useForm(fields);
+  const { values, valuesError, checkEmptyFields, handleChange } =
+    useForm(fields);
   const [msg, addMsg, error, addError] = useMsg();
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(useLocation().search);
@@ -37,7 +36,7 @@ const Login = () => {
   }, []);
 
   const validateFields = () => {
-    if (fields.some((field) => values[field.id] === "")) {
+    if (checkEmptyFields()) {
       addError("Preencha todos os campos");
     } else if (users && !users.some(({ email }) => email === values.email)) {
       addError("Email não cadastrado");
@@ -79,9 +78,10 @@ const Login = () => {
         {fields.map((field) => (
           <Input
             key={field.id}
-            {...field}
             value={values[field.id]}
             onChange={handleChange}
+            error={valuesError[field.id]}
+            {...field}
           />
         ))}
         {error ? <G.Error>{error}</G.Error> : <G.Msg>{msg}</G.Msg>}

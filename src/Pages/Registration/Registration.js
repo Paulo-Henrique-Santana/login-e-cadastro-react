@@ -43,7 +43,8 @@ const fields = [
 
 const Registration = () => {
   const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
-  const [values, handleChange] = useForm(fields);
+  const { values, valuesError, checkEmptyFields, handleChange } =
+    useForm(fields);
   const [error, addError] = useMsg();
   const navigate = useNavigate();
 
@@ -53,7 +54,7 @@ const Registration = () => {
   }, []);
 
   const validateFields = () => {
-    if (fields.some((field) => values[field.id] === "")) {
+    if (checkEmptyFields()) {
       addError("Preencha todos os campos");
     } else if (values.password !== values.confirmPassword) {
       addError("Confirmação de senha não confere");
@@ -91,9 +92,10 @@ const Registration = () => {
         {fields.map((field) => (
           <Input
             key={field.id}
-            {...field}
             value={values[field.id]}
             onChange={handleChange}
+            error={valuesError[field.id]}
+            {...field}
           />
         ))}
         <G.Error>{error}</G.Error>
