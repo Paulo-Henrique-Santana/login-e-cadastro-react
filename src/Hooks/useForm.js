@@ -14,14 +14,17 @@ const useForm = (fields) => {
     }, {})
   );
 
+  // Altera para true o valor de erro dos campos não preenchidos
+  // e retorna se há algum campos vazio
   const checkEmptyFields = () => {
     setValuesError(
-      fields.reduce((acc, field) => {
-        if (values[field.id] === "") return { ...acc, [field.id]: true };
-        else return { ...acc, [field.id]: false };
+      fields.reduce((acc, { id }) => {
+        if (values[id] === "") return { ...acc, [id]: true };
+        else return { ...acc, [id]: false };
       }, {})
     );
-    if (fields.some((field) => values[field.id] === "")) return true;
+
+    return fields.some(({ id }) => valuesError[id] === true);
   };
 
   // altera o valor dentro do array sempre que o valor do campo mudar
@@ -31,6 +34,7 @@ const useForm = (fields) => {
     setValues({ ...values, [id]: value });
     if (value !== "") setValuesError({ ...valuesError, [id]: false });
   };
+
   return { values, valuesError, checkEmptyFields, handleChange };
 };
 

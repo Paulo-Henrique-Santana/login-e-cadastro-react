@@ -22,7 +22,7 @@ const fields = [
 ];
 
 const Login = () => {
-  const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
+  const [users] = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange } =
     useForm(fields);
   const [msg, addMsg, error, addError] = useMsg();
@@ -30,10 +30,8 @@ const Login = () => {
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    checkLoggedUser();
-    getUsers();
     if (urlParams.get("msg")) addMsg("Usuário cadastrado com sucesso");
-  }, []);
+  }, [addMsg, urlParams]);
 
   const validateFields = () => {
     if (checkEmptyFields()) {

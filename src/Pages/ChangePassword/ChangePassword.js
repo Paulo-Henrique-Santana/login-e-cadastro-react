@@ -27,16 +27,12 @@ const fields = [
 ];
 
 const ChangePassword = () => {
-  const [user, setUser] = React.useState(null);
-  const [checkLoggedUser] = useLocalStorageUsers();
+  // const [user, setUser] = React.useState(null);
+  const [user] = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange } =
     useForm(fields);
   const [error, addError] = useMsg();
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    setUser(checkLoggedUser());
-  }, []);
 
   const validateFields = () => {
     if (checkEmptyFields()) {

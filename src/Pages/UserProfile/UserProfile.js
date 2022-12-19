@@ -7,14 +7,11 @@ import * as L from "./style_userProfile";
 import * as G from "../../style_global";
 
 const UserProfile = () => {
-  const [user, setUser] = React.useState();
-  const [checkLoggedUser] = useLocalStorageUsers();
+  const [user] = useLocalStorageUsers();
   const [msg, addMsg] = useMsg();
   const urlParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    setUser(checkLoggedUser());
-
     if (urlParams.get("passwordChanged")) addMsg("Senha alterada com sucesso");
   }, []);
 

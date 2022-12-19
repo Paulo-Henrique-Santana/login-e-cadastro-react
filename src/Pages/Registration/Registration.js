@@ -42,16 +42,11 @@ const fields = [
 ];
 
 const Registration = () => {
-  const [checkLoggedUser, getUsers, users] = useLocalStorageUsers();
+  const [users] = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange } =
     useForm(fields);
   const [error, addError] = useMsg();
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    checkLoggedUser();
-    getUsers();
-  }, []);
 
   const validateFields = () => {
     if (checkEmptyFields()) {
