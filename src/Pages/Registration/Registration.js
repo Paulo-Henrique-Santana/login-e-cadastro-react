@@ -42,10 +42,10 @@ const fields = [
 ];
 
 const Registration = () => {
-  const [users] = useLocalStorageUsers();
-  const { values, valuesError, checkEmptyFields, handleChange } =
+  const { users } = useLocalStorageUsers();
+  const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const [error, addError] = useMsg();
+  const { error, addError } = useMsg();
   const navigate = useNavigate();
 
   const validateFields = () => {
@@ -71,11 +71,12 @@ const Registration = () => {
       const user = { ...values };
       delete user.confirmPassword;
       if (users) {
-        localStorage.users = JSON.stringify([...users, user]);
+        localStorage.setItem("users", JSON.stringify([...users, user]));
       } else {
-        localStorage.users = JSON.stringify([user]);
+        localStorage.setItem("users", JSON.stringify([user]));
       }
-      navigate("/?msg=registeredUser");
+      localStorage.setItem("msg", "Usuário cadastrado com sucesso");
+      navigate("/");
     }
   };
 
@@ -89,6 +90,7 @@ const Registration = () => {
             key={field.id}
             value={values[field.id]}
             onChange={handleChange}
+            onBlur={handleBlur}
             error={valuesError[field.id]}
             {...field}
           />

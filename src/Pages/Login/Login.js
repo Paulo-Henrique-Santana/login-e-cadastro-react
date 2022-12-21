@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useForm from "../../Hooks/useForm";
 import Input from "../../Components/Input/Input";
 import * as L from "./style_login";
@@ -22,22 +22,17 @@ const fields = [
 ];
 
 const Login = () => {
-  const [users] = useLocalStorageUsers();
-  const { values, valuesError, checkEmptyFields, handleChange } =
+  const { users } = useLocalStorageUsers();
+  const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const [msg, addMsg, error, addError] = useMsg();
+  const { msg, error, setError } = useMsg();
   const navigate = useNavigate();
-  const urlParams = new URLSearchParams(useLocation().search);
-
-  React.useEffect(() => {
-    if (urlParams.get("msg")) addMsg("Usuário cadastrado com sucesso");
-  }, [addMsg, urlParams]);
 
   const validateFields = () => {
     if (checkEmptyFields()) {
-      addError("Preencha todos os campos");
+      setError("Preencha todos os campos");
     } else if (users && !users.some(({ email }) => email === values.email)) {
-      addError("Email não cadastrado");
+      setError("Email não cadastrado");
     } else if (
       users &&
       users.some(
@@ -45,7 +40,7 @@ const Login = () => {
           email === values.email && password !== values.password
       )
     ) {
-      addError("Senha incorreta");
+      setError("Senha incorreta");
     } else {
       return true;
     }
@@ -58,10 +53,10 @@ const Login = () => {
       if (users) {
         const user = users.find(
           (user) =>
-            values.email === user.email && values.password === user.password
+            user.email === values.email && user.password === values.password
         );
         if (user) {
-          localStorage.loggedUser = user.email;
+          localStorage.setItem("loggedUser", user.email);
           navigate("userProfile");
         }
       }
@@ -78,6 +73,7 @@ const Login = () => {
             key={field.id}
             value={values[field.id]}
             onChange={handleChange}
+            onBlur={handleBlur}
             error={valuesError[field.id]}
             {...field}
           />

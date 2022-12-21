@@ -27,22 +27,21 @@ const fields = [
 ];
 
 const ChangePassword = () => {
-  // const [user, setUser] = React.useState(null);
-  const [user] = useLocalStorageUsers();
-  const { values, valuesError, checkEmptyFields, handleChange } =
+  const { user, users } = useLocalStorageUsers();
+  const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const [error, addError] = useMsg();
+  const { error, setError } = useMsg();
   const navigate = useNavigate();
 
   const validateFields = () => {
     if (checkEmptyFields()) {
-      addError("Preencha todos os campos");
+      setError("Preencha todos os campos");
     } else if (values.currentPassword !== user.password) {
-      addError("Senha atual está incorreta");
+      setError("Senha atual está incorreta");
     } else if (values.newPassword !== values.confirmNewPassword) {
-      addError("Confirmação de senha não confere");
+      setError("Confirmação de senha não confere");
     } else if (values.newPassword === user.password) {
-      addError("A senha nova não pode ser a mesma que a senha atual");
+      setError("A senha nova não pode ser a mesma que a senha atual");
     } else {
       return true;
     }
@@ -51,13 +50,17 @@ const ChangePassword = () => {
   const changePassword = (event) => {
     event.preventDefault();
     if (validateFields()) {
-      const users = JSON.parse(localStorage.users).map((user) => {
-        if (user.email === localStorage.loggedUser)
-          user.password = values.newPassword;
-        return user;
-      });
-      localStorage.users = JSON.stringify(users);
-      navigate("/userProfile?passwordChanged=true");
+      localStorage.setItem(
+        "users",
+        JSON.stringify(
+          users.map(({ email, password }) => {
+            if (email === user.email) password = values.newPassword;
+            return user;
+          })
+        )
+      );
+      localStorage.setItem("msg", "Senha alterada com sucesso!");
+      navigate("/userProfile");
     }
   };
 
@@ -71,6 +74,7 @@ const ChangePassword = () => {
             key={field.id}
             value={values[field.id]}
             onChange={handleChange}
+            onBlur={handleBlur}
             error={valuesError[field.id]}
             {...field}
           />

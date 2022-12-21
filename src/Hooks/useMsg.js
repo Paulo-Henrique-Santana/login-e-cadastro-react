@@ -1,20 +1,21 @@
 import React from "react";
 
 const useMsg = () => {
-  const [msg, setMsg] = React.useState("");
+  const [msg, setMsg] = React.useState(localStorage.getItem("msg") || "");
   const [error, setError] = React.useState("");
 
-  const addMsg = (msg) => {
-    setMsg(msg);
-    setTimeout(() => setMsg(""), 3000);
-  };
+  React.useEffect(() => {
+    localStorage.removeItem("msg");
+  }, []);
 
-  const addError = (error) => {
-    setError(error);
-    setTimeout(() => setError(""), 3000);
-  };
+  React.useEffect(() => {
+    setTimeout(() => {
+      setMsg("");
+      setError("");
+    }, 3000);
+  }, [msg, error]);
 
-  return [msg, addMsg, error, addError];
+  return { msg, setMsg, error, setError };
 };
 
 export default useMsg;

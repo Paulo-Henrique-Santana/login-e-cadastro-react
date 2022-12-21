@@ -4,37 +4,31 @@ import { useLocation, useNavigate } from "react-router-dom";
 const useLocalStorageUsers = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [users, setUsers] = React.useState(null);
-  const [user, setUser] = React.useState(null);
 
-  // redireciona a página dependendo se o usuário estiver ou não logado
-  // pega os dados do usuário logado
-  const checkLoggedUser = () => {
-    if (localStorage.loggedUser) {
-      if (pathname === "/" || pathname === "/registration") {
-        navigate("/userProfile");
-      } else {
-        setUser(
-          JSON.parse(localStorage.users).find(
-            ({ email }) => email === localStorage.loggedUser
-          )
-        );
-      }
-    } else if (pathname === "/userProfile" || pathname === "/changePassword") {
-      navigate("/");
-    }
-  };
+  const [users, setUsers] = React.useState(
+    localStorage.getItem("users")
+      ? JSON.parse(localStorage.getItem("users"))
+      : null
+  );
 
-  const getUsers = () => {
-    if (localStorage.users) setUsers(JSON.parse(localStorage.users));
-  };
+  const [user, setUser] = React.useState(
+    localStorage.getItem("loggedUser")
+      ? users.find(({ email }) => email === localStorage.getItem("loggedUser"))
+      : null
+  );
 
   React.useEffect(() => {
-    checkLoggedUser();
-    getUsers();
-  }, []);
+    if (user && (pathname === "/" || pathname === "/registration")) {
+      navigate("/userProfile");
+    } else if (
+      !user &&
+      (pathname === "/userProfile" || pathname === "/changePassword")
+    ) {
+      navigate("/");
+    }
+  }, [navigate, pathname, user]);
 
-  return [user, users];
+  return { user, setUser, users, setUsers };
 };
 
 export default useLocalStorageUsers;
