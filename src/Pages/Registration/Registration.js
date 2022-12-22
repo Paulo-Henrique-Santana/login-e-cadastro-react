@@ -45,7 +45,7 @@ const Registration = () => {
   const { users } = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const [error, addError] = React.useState("");
+  const [error, addError] = React.useState(null);
   const navigate = useNavigate();
 
   const validateFields = () => {
@@ -95,7 +95,7 @@ const Registration = () => {
             {...field}
           />
         ))}
-        <G.Error>{error}</G.Error>
+        {error && <G.Error>{error}</G.Error>}
         <G.Button>Cadastrar</G.Button>
       </G.Form>
       <G.TextBox>

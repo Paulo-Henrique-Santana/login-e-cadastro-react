@@ -79,7 +79,7 @@ const ChangePassword = () => {
             {...field}
           />
         ))}
-        <G.Error>{error}</G.Error>
+        {error && <G.Error>{error}</G.Error>}
         <G.Button>Confirmar</G.Button>
         <L.Paragraph>
           <G.StyledLink to="/userProfile">Voltar</G.StyledLink>

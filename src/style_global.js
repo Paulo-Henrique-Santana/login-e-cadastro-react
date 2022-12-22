@@ -48,14 +48,20 @@ export const Form = styled.form`
 `;
 
 export const Msg = styled.p`
-  margin-bottom: 15px;
-  height: 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin: 0 auto 20px auto;
+  width: max-content;
   text-align: center;
   color: green;
+  background-color: rgb(0, 255, 0, 0.15);
 `;
 
 export const Error = styled(Msg)`
   color: red;
+  background-color: rgb(255, 0, 0, 0.15);
 `;
 
 export const Button = styled.button`

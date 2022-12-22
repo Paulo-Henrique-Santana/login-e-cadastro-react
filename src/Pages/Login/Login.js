@@ -87,7 +87,7 @@ const Login = () => {
             {...field}
           />
         ))}
-        {error ? <G.Error>{error}</G.Error> : <G.Msg>{msg}</G.Msg>}
+        {error ? <G.Error>{error}</G.Error> : msg && <G.Msg>{msg}</G.Msg>}
         <G.Button>Entrar</G.Button>
       </G.Form>
       <G.TextBox>

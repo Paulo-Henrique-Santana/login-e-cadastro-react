@@ -25,22 +25,20 @@ const UserProfile = () => {
         <div>
           <L.Data>
             <L.DataTitle>Nome Completo</L.DataTitle>
-            <L.DataValue>
-              {loggedUser.firstName} {loggedUser.lastName}
-            </L.DataValue>
+            {loggedUser.firstName} {loggedUser.lastName}
           </L.Data>
           <L.Data>
             <L.DataTitle>Nome de usuário</L.DataTitle>
-            <L.DataValue> {loggedUser.username}</L.DataValue>
+            {loggedUser.username}
           </L.Data>
           <L.Data>
             <L.DataTitle>Email</L.DataTitle>
-            <L.DataValue> {loggedUser.email}</L.DataValue>
+            {loggedUser.email}
           </L.Data>
         </div>
       )}
-      <G.Msg>{msg}</G.Msg>
-      <G.StyledLink to="/changePassword">Alterar senha</G.StyledLink>
+      {msg && <G.Msg>{msg}</G.Msg>}
+      <L.StyledLink to="/changePassword">Alterar senha</L.StyledLink>
       <L.Logout to="/" onClick={() => localStorage.removeItem("loggedUser")}>
         Sair
       </L.Logout>

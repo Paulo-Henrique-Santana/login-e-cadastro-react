@@ -19,8 +19,8 @@ export const DataTitle = styled.p`
   font-weight: bold;
 `;
 
-export const DataValue = styled.p`
-  word-break: keep-all;
+export const StyledLink = styled(G.StyledLink)`
+  margin-top: 10px;
 `;
 
 export const Logout = styled(Link)`
