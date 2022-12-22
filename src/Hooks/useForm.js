@@ -14,8 +14,15 @@ const useForm = (fields) => {
     }, {})
   );
 
-  const checkEmptyFields = () =>
-    fields.some(({ id }) => valuesError[id] === true);
+  const checkEmptyFields = () => {
+    setValuesError(
+      fields.reduce((acc, { id }) => {
+        if (values[id] === "") return { ...acc, [id]: true };
+        else return { ...acc, [id]: false };
+      }, {})
+    );
+    return fields.some(({ id }) => values[id] === "");
+  };
 
   // altera o valor dentro do array sempre que o valor do campo mudar
   // e mantém o valor dos outros campos

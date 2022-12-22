@@ -1,33 +1,41 @@
 import React from "react";
 import Head from "../../Components/Head";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
-import useMsg from "../../Hooks/useMsg";
 import * as L from "./style_userProfile";
 import * as G from "../../style_global";
 
 const UserProfile = () => {
-  const { user } = useLocalStorageUsers();
-  const { msg } = useMsg();
+  const [msg, setMsg] = React.useState(localStorage.getItem("msg") || "");
+  const { loggedUser } = useLocalStorageUsers();
+
+  React.useEffect(() => {
+    if (localStorage.getItem("msg")) {
+      setTimeout(() => {
+        localStorage.removeItem("msg");
+        setMsg("");
+      }, 3000);
+    }
+  }, []);
 
   return (
     <L.Section>
       <Head title="Perfil do usuário" description="Perfil do usuário" />
       <G.Title>Seus Dados</G.Title>
-      {user && (
+      {loggedUser && (
         <div>
           <L.Data>
             <L.DataTitle>Nome Completo</L.DataTitle>
             <L.DataValue>
-              {user.firstName} {user.lastName}
+              {loggedUser.firstName} {loggedUser.lastName}
             </L.DataValue>
           </L.Data>
           <L.Data>
             <L.DataTitle>Nome de usuário</L.DataTitle>
-            <L.DataValue> {user.username}</L.DataValue>
+            <L.DataValue> {loggedUser.username}</L.DataValue>
           </L.Data>
           <L.Data>
             <L.DataTitle>Email</L.DataTitle>
-            <L.DataValue> {user.email}</L.DataValue>
+            <L.DataValue> {loggedUser.email}</L.DataValue>
           </L.Data>
         </div>
       )}

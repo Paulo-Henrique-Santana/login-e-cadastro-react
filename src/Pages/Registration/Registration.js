@@ -4,7 +4,7 @@ import Head from "../../Components/Head";
 import Input from "../../Components/Input/Input";
 import useForm from "../../Hooks/useForm";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
-import useMsg from "../../Hooks/useMsg";
+
 import * as S from "./style_registration";
 import * as G from "../../style_global";
 
@@ -45,7 +45,7 @@ const Registration = () => {
   const { users } = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const { error, addError } = useMsg();
+  const [error, addError] = React.useState("");
   const navigate = useNavigate();
 
   const validateFields = () => {

@@ -4,7 +4,6 @@ import Head from "../../Components/Head";
 import Input from "../../Components/Input/Input";
 import useForm from "../../Hooks/useForm";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
-import useMsg from "../../Hooks/useMsg";
 import * as L from "./style_ChangePassword";
 import * as G from "../../style_global";
 
@@ -27,21 +26,21 @@ const fields = [
 ];
 
 const ChangePassword = () => {
-  const { user, users } = useLocalStorageUsers();
+  const { loggedUser, users } = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const { error, setError } = useMsg();
+  const [error, addError] = React.useState("");
   const navigate = useNavigate();
 
   const validateFields = () => {
     if (checkEmptyFields()) {
-      setError("Preencha todos os campos");
-    } else if (values.currentPassword !== user.password) {
-      setError("Senha atual está incorreta");
+      addError("Preencha todos os campos");
+    } else if (values.currentPassword !== loggedUser.password) {
+      addError("Senha atual está incorreta");
     } else if (values.newPassword !== values.confirmNewPassword) {
-      setError("Confirmação de senha não confere");
-    } else if (values.newPassword === user.password) {
-      setError("A senha nova não pode ser a mesma que a senha atual");
+      addError("Confirmação de senha não confere");
+    } else if (values.newPassword === loggedUser.password) {
+      addError("A senha nova não pode ser a mesma que a senha atual");
     } else {
       return true;
     }
@@ -53,8 +52,9 @@ const ChangePassword = () => {
       localStorage.setItem(
         "users",
         JSON.stringify(
-          users.map(({ email, password }) => {
-            if (email === user.email) password = values.newPassword;
+          users.map((user) => {
+            if (user.email === loggedUser.email)
+              user.password = values.newPassword;
             return user;
           })
         )

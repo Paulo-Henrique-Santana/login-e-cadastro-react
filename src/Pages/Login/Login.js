@@ -6,7 +6,6 @@ import * as L from "./style_login";
 import * as G from "../../style_global";
 import useLocalStorageUsers from "../../Hooks/useLocalStorageUsers";
 import Head from "../../Components/Head";
-import useMsg from "../../Hooks/useMsg";
 
 const fields = [
   {
@@ -22,11 +21,21 @@ const fields = [
 ];
 
 const Login = () => {
+  const [msg, setMsg] = React.useState(localStorage.getItem("msg") || "");
+  const [error, setError] = React.useState();
   const { users } = useLocalStorageUsers();
   const { values, valuesError, checkEmptyFields, handleChange, handleBlur } =
     useForm(fields);
-  const { msg, error, setError } = useMsg();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (localStorage.getItem("msg")) {
+      setTimeout(() => {
+        localStorage.removeItem("msg");
+        setMsg("");
+      }, 3000);
+    }
+  }, []);
 
   const validateFields = () => {
     if (checkEmptyFields()) {

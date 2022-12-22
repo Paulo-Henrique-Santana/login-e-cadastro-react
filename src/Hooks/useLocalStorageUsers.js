@@ -11,24 +11,24 @@ const useLocalStorageUsers = () => {
       : null
   );
 
-  const [user, setUser] = React.useState(
+  const [loggedUser, setUser] = React.useState(
     localStorage.getItem("loggedUser")
       ? users.find(({ email }) => email === localStorage.getItem("loggedUser"))
       : null
   );
 
   React.useEffect(() => {
-    if (user && (pathname === "/" || pathname === "/registration")) {
+    if (loggedUser && (pathname === "/" || pathname === "/registration")) {
       navigate("/userProfile");
     } else if (
-      !user &&
+      !loggedUser &&
       (pathname === "/userProfile" || pathname === "/changePassword")
     ) {
       navigate("/");
     }
-  }, [navigate, pathname, user]);
+  }, [navigate, pathname, loggedUser]);
 
-  return { user, setUser, users, setUsers };
+  return { loggedUser, setUser, users, setUsers };
 };
 
 export default useLocalStorageUsers;
